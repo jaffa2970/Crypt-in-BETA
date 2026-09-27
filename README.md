@@ -46,17 +46,29 @@ finding what we already know.
 
 A second package is coming: a red-team build that points at a **clone** of the
 licence server, so that the server can be attacked without anyone touching the
-one that serves real licences. It is not in this Release, and **we are not
-putting a date on it** — it will appear as an extra asset here when it is ready.
+one that serves real licences. It is not in this Release. **The red-team track
+opens on 15 October 2026**, and its only target is the clone
+(`redteam-license.lake8.dev`) — never `license.lake8.dev`. It will appear as an
+extra asset here; the [red-team rules](https://cryptin.lake8.dev/security/red-team-rules/)
+carry the live status, and if the clone is not yet isolated on its own network by
+that date, that page will say the opening is delayed. **Production is never a
+target.**
 
-### The licence server is not a target yet, and here is the honest reason
+**By downloading this package you accept these rules and the perimeter they
+define:** you connect to production only to run the product and you never attack
+it; the only server you may ever attack is the clone, once the track opens. The
+rules are ours and we keep them.
+
+### The licence server is not a target until the clone opens — the honest reason
 
 The clone exists and runs **the same image as production** — same Dockerfile,
 same entrypoint, same code, only the `.env` differs. What it does not have yet
 is a network of its own: today it sits on the same LAN as the production
 machine, which also serves other products and holds signing keys that cannot be
 rotated. Inviting attacks at it right now would be inviting them onto that
-machine. So we are not inviting them.
+machine. So we are not inviting them yet. On **15 October 2026** the clone moves
+onto its own network, off that machine, and the red-team track opens against
+it — and only against it.
 
 **Out of scope for this beta:** `license.lake8.dev`, the machines behind it, and
 the other products that share them. If you find something that only reproduces

@@ -3,7 +3,7 @@
 Hardware-backed file encryption on an ESP32-S3 dongle. This repository is where
 the beta package is downloaded from, and where you report what you find.
 
-**Beta opens 30 September 2026.**
+**The beta is live since 29 September 2026.**
 
 ---
 
@@ -188,14 +188,18 @@ The `LICENSE` file in this repository covers **this repository's own files**. It
 does not cover what you download from the Release, which is three different
 things:
 
-- **`CryptinPersonal.exe`, `CryptinUpdater.exe` and the dongle firmware** are
-  **proprietary**. They are not Apache-2.0, and the `LICENSE` above does not
-  apply to them.
+- **`CryptinPersonal.exe` and `CryptinUpdater.exe`** are **GPL-3.0**. Their
+  source code is **not published yet**, and no date has been announced; when it
+  is, it will be linked from here. The `LICENSE` above does not apply to them.
+- **The dongle firmware** (`firmware/firmware.factory.bin`) is **proprietary**
+  and closed source. In this beta it is the `-dev` build and it is **not
+  signed**: verify it by its hash in `SHA256SUMS.txt`, not by a signature.
 - **`esptool.exe` v5.3.1** is **GPL-2.0**, unmodified, taken from Espressif's
   official release. It is invoked as a **separate process**, and its licence text
   travels inside the archive at `licenses/esptool-v5.3.1-GPL-2.0.txt`.
-- **CryptinSDK** is Apache-2.0 and lives in its own repository — none of it is in
-  this download.
+- **CryptinSDK** (and the Linux CLI, which is part of it) is **Apache-2.0**. It is
+  **not in this download**, its source is **not published yet**, and no date has
+  been announced.
 
 Full terms are on the site: <https://cryptin.lake8.dev/docs/license/>.
 

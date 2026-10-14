@@ -3,8 +3,9 @@
 Hardware-backed file encryption on an ESP32-S3 dongle. This repository is where
 the beta package is downloaded from, and where you report what you find.
 
-**The beta is live since 29 September 2026.** Current package: **`beta-2026-10-13`**,
-published 13 October 2026.
+**The beta is live since 29 September 2026.** Current package: **`beta-2026-10-14`**,
+published 14 October 2026. It changes the app only: the firmware is the one of
+`beta-2026-10-13` — see [What changed in beta-2026-10-14](#what-changed-in-beta-2026-10-14).
 
 > ⚠️ **If you flashed a dongle from the `beta-2026-09-24` package, update it.**
 > Seven red-team rounds on the firmware found defects in that version, two of them
@@ -12,6 +13,9 @@ published 13 October 2026.
 > Updating keeps your 24 words, your PIN, your files and your licence: see
 > [Updating from beta-2026-09-24](#updating-from-beta-2026-09-24). **Do not update
 > with the command-line updater.**
+>
+> **Already on `beta-2026-10-13`?** Replace the app folder with the new package.
+> Nothing to flash, no transfer.
 
 ---
 
@@ -148,7 +152,7 @@ Select-String -Path .\SHA256SUMS.txt -Pattern '([0-9a-f]{64})\s+(.+)' | ForEach-
 }
 ```
 
-**You should see five `OK` lines.** If you see four, that is not a pass.
+**You should see six `OK` lines.** If you see five, that is not a pass.
 
 *(For a single file from `cmd`: `certutil -hashfile CryptinPersonal.exe SHA256`.)*
 
@@ -165,6 +169,31 @@ Select-String -Path .\SHA256SUMS.txt -Pattern '([0-9a-f]{64})\s+(.+)' | ForEach-
 are not byte-for-byte reproducible — two builds twenty minutes apart from
 identical sources produce different hashes. The published hash identifies **the
 artefact you received**, not the source.
+
+---
+
+## What changed in beta-2026-10-14
+
+The app and the updater only. The firmware, `firmware\firmware.factory.bin`, is
+byte-identical to `beta-2026-10-13` (sha256 `f66a17cd…94df9d`, version `90d0cd9`). These are the defects we met running the update from
+`beta-2026-09-24` ourselves, on a beta unit, against production.
+
+| where | before | now |
+|---|---|---|
+| Setup → *Program*, on a chip that is already a dongle | Asked before overwriting, without saying that an update is done elsewhere; yes gave **24 new words and no licence** | Says it: updating → answer **No**, use **Transfer license** |
+| Transfer license → *Program* | Same question | Says that for an update **Yes** is right |
+| Command-line updater, on a dongle | Refused, without saying what to do | Refuses and points to Transfer license |
+| Setup, programming failed | Always "try another USB port" | The updater's own reason |
+| Updater error messages | Seven still in Italian | English |
+| Licence step, right after activation | A token refused by the dongle went unsaid if the server check lagged | Shown, in red |
+| End of Transfer license | Expiry in local time | UTC, like the rest of the app |
+| Recovery, step 1 | "Photo of the UART socket goes here" | A drawing: cable in the **UART** socket |
+
+The release notes say which of these we saw running and which we only compiled.
+
+**If the dongle seems to vanish after a reset and you run VMware Workstation:** its
+*USB Arbitration Service* holds the device until you choose host or VM. Set
+*Edit → Preferences → USB* to connect new devices to the host. Not a Crypt-in defect.
 
 ---
 

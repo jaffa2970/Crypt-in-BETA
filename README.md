@@ -55,11 +55,13 @@ finding what we already know.
 A second package is coming: a red-team build that points at a **clone** of the
 licence server, so that the server can be attacked without anyone touching the
 one that serves real licences. It is not in this Release. **The red-team track
-opens on 15 October 2026**, and its only target is the clone
+was due to open on 15 October 2026 and is delayed to 30 October 2026**: we are
+still waiting for the cloud provider's written permission for a public test,
+and we do not open without it. Its only target is the clone
 (`redteam-license.lake8.dev`) — never `license.lake8.dev`. It will appear as an
 extra asset here; the [red-team rules](https://cryptin.lake8.dev/security/red-team-rules/)
 carry the live status, and if the clone is not yet isolated on its own network by
-that date, that page will say the opening is delayed. **Production is never a
+30 October, that page will say so again before that date. **Production is never a
 target.**
 
 **By downloading this package you accept these rules and the perimeter they
@@ -74,7 +76,7 @@ same entrypoint, same code, only the `.env` differs. What it does not have yet
 is a network of its own: today it sits on the same LAN as the production
 machine, which also serves other products and holds signing keys that cannot be
 rotated. Inviting attacks at it right now would be inviting them onto that
-machine. So we are not inviting them yet. On **15 October 2026** the clone moves
+machine. So we are not inviting them yet. By **30 October 2026** the clone moves
 onto its own network, off that machine, and the red-team track opens against
 it — and only against it.
 

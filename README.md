@@ -62,21 +62,20 @@ one that serves real licences. It is not an asset of this Release: you build it
 yourself from the published sources,
 [`jaffa2970/cryptin-sdk-beta`](https://github.com/jaffa2970/cryptin-sdk-beta),
 with `dotnet build -c RedTeam`, and every window of that build carries
-«⚠ RED TEAM — redteam-license.lake8.dev» in its title. **The red-team track has
-a target date of 30 October 2026** (it slipped from 15 October 2026; the cloud
-provider's written permission for a public test arrived on 14 October 2026).
-Its only target is the clone (`redteam-license.lake8.dev`) — never
+«⚠ RED TEAM — redteam-license.lake8.dev» in its title. **The red-team track is
+open since 29 October 2026** (target date was 30 October 2026, after a slip
+from 15 October 2026; the cloud provider's written permission for a public test
+arrived on 14 October 2026). Its only target is the clone (`redteam-license.lake8.dev`) — never
 `license.lake8.dev`. The [red-team rules](https://cryptin.lake8.dev/security/red-team-rules/)
-carry the live status: if our acceptance tests of the clone are not done by
-30 October, that page will say so before that date. **Production is never a
+carry the live status and the perimeter. **Production is never a
 target.**
 
 **By downloading this package you accept these rules and the perimeter they
 define:** you connect to production only to run the product and you never attack
-it; the only server you may ever attack is the clone, once the track opens. The
+it; the only server you may ever attack is the clone. The
 rules are ours and we keep them.
 
-### The licence server is not a target until the clone opens — the honest reason
+### Why the target is a clone and not the licence server — the honest reason
 
 The clone runs **the same image as production** — same Dockerfile, same
 entrypoint, same code, only the `.env` differs. Until 18 October 2026 it sat on
@@ -84,8 +83,8 @@ the same LAN as the production machine, which also serves other products and
 holds signing keys that cannot be rotated: inviting attacks at it would have
 meant inviting them onto that machine, so we did not. Since **18 October 2026**
 it runs on a cloud server of its own (Hetzner, Falkenstein), with its own name
-and TLS certificate, off that machine. What is left are our acceptance tests of
-the clone; then the red-team track opens against it — and only against it.
+and TLS certificate, off that machine. We ran our acceptance tests on it, and
+the red-team track opened against it on 29 October 2026 — and only against it.
 
 **Out of scope for this beta:** `license.lake8.dev`, the machines behind it, and
 the other products that share them. If you find something that only reproduces
@@ -102,8 +101,7 @@ flash. On a `-dev` unit the flash is in the clear and the licence check is not a
 security boundary — that is the definition of `-dev`, and it is in the table
 above.
 
-When the clone opens, this is the objective we most want someone to reach, and
-it is stated here so you can start thinking about it:
+Against the clone, this is the objective we most want someone to reach:
 
 > **Make the licence server issue a token it should not have issued — and show a
 > real dongle accepting it.**

@@ -299,17 +299,23 @@ does not cover what you download from the Release, which is three different
 things:
 
 - **`CryptinPersonal.exe` and `CryptinUpdater.exe`** are **GPL-3.0**. Their
-  source code is **not published yet**, and no date has been announced; when it
-  is, it will be linked from here. The `LICENSE` above does not apply to them.
+  source is published, as a beta, in
+  [`jaffa2970/cryptin-sdk-beta`](https://github.com/jaffa2970/cryptin-sdk-beta)
+  (`src/CryptinPersonal/`, `src/CryptinUpdater/`). The updater is the **test
+  build** described there: it verifies no signature. Our builds are not
+  reproducible, so the source is the same but a rebuild will not match these
+  binaries byte for byte. The `LICENSE` above does not apply to them.
 - **The dongle firmware** (`firmware/firmware.factory.bin`) is **proprietary**
   and closed source. In this beta it is the `-dev` build and it is **not
   signed**: verify it by its hash in `SHA256SUMS.txt`, not by a signature.
 - **`esptool.exe` v5.3.1** is **GPL-2.0**, unmodified, taken from Espressif's
   official release. It is invoked as a **separate process**, and its licence text
   travels inside the archive at `licenses/esptool-v5.3.1-GPL-2.0.txt`.
-- **CryptinSDK** (and the Linux CLI, which is part of it) is **Apache-2.0**. It is
-  **not in this download**, its source is **not published yet**, and no date has
-  been announced.
+- **CryptinSDK** and the `cryptin` command-line client are **Apache-2.0**. They
+  are **not in this download**; their source is published in the same
+  repository (`src/CryptinSDK/`, `src/CryptinCli/`), each folder with its own
+  `LICENSE` and `NOTICE`. No binary package of the SDK or the CLI has been
+  released, and no date has been announced for one.
 
 Full terms are on the site: <https://cryptin.lake8.dev/docs/license/>.
 

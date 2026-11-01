@@ -3,21 +3,22 @@
 Hardware-backed file encryption on an ESP32-S3 dongle. This repository is where
 the beta package is downloaded from, and where you report what you find.
 
-**The beta is live since 29 September 2026.** Current package: **`beta-2026-10-30`**,
-published 30 October 2026. It adds **New identity** to the app, the guided cure for the
-G2 advisory; the firmware is still the one of `beta-2026-10-13` — see
-[What changed in beta-2026-10-30](#what-changed-in-beta-2026-10-30).
+**The beta is live since 29 September 2026.** Current package: **`beta-2026-11-01`**,
+published 1 November 2026. **New firmware**, and the app can now install it without a
+transfer: **Update firmware** keeps your 24 words, your PIN, your files and your
+licence. With the new firmware, **New identity** happens on the chip itself — no cable
+to the UART, no reprogramming. See
+[What changed in beta-2026-11-01](#what-changed-in-beta-2026-11-01).
 
-> ⚠️ **If you flashed a dongle from the `beta-2026-09-24` package, update it.**
-> Seven red-team rounds on the firmware found defects in that version, two of them
-> rated High — the list is under [What changed in beta-2026-10-13](#what-changed-in-beta-2026-10-13).
-> Updating keeps your 24 words, your PIN, your files and your licence: see
-> [Updating from beta-2026-09-24](#updating-from-beta-2026-09-24). **Do not update
-> with the command-line updater.**
+> **To update any beta dongle:** replace the app folder with this package, plug in
+> both cables, and click **Update firmware** — see
+> [Updating the firmware](#updating-the-firmware). It spends **no transfer**.
 >
-> **Already on `beta-2026-10-13`?** Replace the app folder with the new package.
-> Nothing to flash, no transfer. Then consider **New identity** — see
-> [What changed in beta-2026-10-30](#what-changed-in-beta-2026-10-30).
+> ⚠️ **Still on the `beta-2026-09-24` firmware?** Update it: seven red-team rounds found
+> defects in that version, two of them rated High — the list is under
+> [What changed in beta-2026-10-13](#what-changed-in-beta-2026-10-13). **Update
+> firmware** works from that version too. It keeps the seed the old firmware drew
+> (advisory **G2**): after updating, give the dongle a new one with **New identity**.
 
 ---
 
@@ -175,9 +176,33 @@ artefact you received**, not the source.
 
 ---
 
+## What changed in beta-2026-11-01
+
+**New firmware:** `firmware\firmware.factory.bin`, sha256
+`b33bb3976b2a8a5e2a9118938a96dc8f2439c1498204756fac5c9f0b54a25f7a`, version `2e1bbef`.
+It replaces `90d0cd9` (`beta-2026-10-13` to `beta-2026-10-30`).
+
+- **Update firmware**, in the bottom row of the main window, writes the new firmware
+  and keeps everything else: your 24 words, your PIN, your files, your licence. **No
+  transfer is spent.** How: [Updating the firmware](#updating-the-firmware).
+- **New identity on the chip.** Two new commands, `CMD_REKEY_BEGIN` (`0x11`) and
+  `CMD_REKEY_COMMIT` (`0x12`): the dongle draws the new seed itself and keeps it aside
+  until you confirm it with the new PIN. The new 24 words and PIN appear in the app;
+  no UART cable, no reprogramming, no restart. BEGIN asks for your **current** PIN
+  again, even on an unlocked session. A move interrupted half-way is completed or
+  discarded at the next start, never half-applied. The licence side is the same as in
+  `beta-2026-10-30`, below. With the `90d0cd9` firmware the app still takes the old
+  route over the UART. Reference: <https://cryptin.lake8.dev/docs/protocol/>.
+- **Transfer license** is again only for a dongle that is broken, lost or stolen. Its
+  texts no longer suggest it for an update.
+- After a Transfer the main window stays unlocked instead of asking for the PIN a
+  second time.
+
+---
+
 ## What changed in beta-2026-10-30
 
-The app only. The firmware, `firmwareirmware.factory.bin`, is still byte-identical to
+The app only. The firmware, `firmware\firmware.factory.bin`, was still byte-identical to
 `beta-2026-10-13` (sha256 `f66a17cd…94df9d`, version `90d0cd9`).
 
 **New identity**, in the bottom row of the main window, gives your dongle a new seed —
@@ -193,6 +218,9 @@ you the licence; this keeps it.
 3. The app reprograms the dongle over the UART cable. On its first start the dongle makes
    a new seed and shows you the new 24 words and the new PIN.
 4. After a restart of the app, the new identity claims the licence.
+
+*(Steps 3 and 4 as they were with the `90d0cd9` firmware. Since `beta-2026-11-01` the
+chip makes the new seed itself — see above.)*
 
 - **Once per licence every 365 days**, separate from the three transfers. The expiry
   date does not change.
@@ -276,43 +304,51 @@ security model page: <https://cryptin.lake8.dev/docs/security-model/>.
 
 ---
 
-## Updating from beta-2026-09-24
+## Updating the firmware
 
-Writing the new firmware reprograms the dongle from scratch — the image overwrites
-the `nvs` partition, and with it the seed and `K_attestation`, the key the licence
-server knows the chip by. So the update is done from the new app's **Transfer
-license**: in one pass it writes the new firmware, puts your 24 words back on the
-chip, and moves your beta licence onto the chip's new `K_attestation`.
+Since `beta-2026-11-01` the app writes **only the application** to the dongle. The
+`nvs` partition, where your seed, your PIN state, the licence and `K_attestation` (the
+key the licence server knows the chip by) live, is not touched. Nothing is asked of the
+licence server and **no transfer is spent**.
 
-1. **Have your 24 words in front of you.** They are the only way back to the files
-   you encrypted with the old firmware. Your PIN does not change: it comes from the
-   words.
-2. Plug in both cables, the native USB and the UART. Open the **new** app and click
-   **Transfer license**. For *What happened to the old dongle*, choose *It stopped
-   working* — for an update it is the closest answer. Enter the 24 words, then
-   **Program** on the UART port. The app asks before it overwrites a chip that is
-   already a dongle: answer **Yes**.
-3. When it says *Chip ready — one restart left*, close the app and open it again. It
-   offers to finish the transfer: say yes and unlock with your PIN. If no PIN box
-   appears, unplug the native USB cable for ten seconds and plug it back in.
-4. The transfer uses one of the licence's three transfers a year. The expiry date
-   does not change.
+1. Replace the app folder with this package. Keep your 24 words at hand anyway: you
+   should not need them, but they are the way back to your files if anything goes
+   wrong.
+2. Plug in both cables, the native USB and the UART. Open the app and click **Update
+   firmware**, in the bottom row of the main window. Only the dongle's own UART bridge
+   is listed; pick it and click **Update**. It takes under a minute.
+3. When it says *Firmware updated — one restart left*, close the app and open it
+   again. Unlock with **your usual PIN**: same 24 words, same licence.
 
-Files encrypted before the update stay in format version 1 and still open.
-Everything you encrypt from now on is version 2.
+Before writing, the updater reads the chip: if it is not a Crypt-in beta dongle with
+the same partition layout as this firmware, **nothing is written** and it says why.
 
-> **Do not update with the command-line updater.** It refuses a chip that is
-> already a dongle, and if you force it the chip starts over with a new identity:
-> the app then shows you **24 new words**. They are not the ones that matter — your
-> files and your licence belong to the old ones. If it has already happened, do
-> step 2 anyway: the transfer puts your old words back.
+**Seen running before publishing**, on two beta units from `90d0cd9`. On the first, the
+`nvs` partition compared entry by entry before and after: the seed and `K_attestation`
+identical, one entry added (the slot the new firmware keeps for New identity). On the
+second, which has an active licence on our red-team clone, from the app: after the
+restart it unlocked with the same PIN, still said *License valid*, and encrypted and
+decrypted a test file byte-identical. The updater from this very package then ran
+`update-app` on the same unit again, and the dongle started with version `2e1bbef`.
+**From the `beta-2026-09-24` firmware** (`3d94e6e`) too: on the first unit, written
+again with that firmware, the updater from this package installed `2e1bbef`, the dongle
+loaded its existing keys, and the `nvs` partition differed by the same single entry.
+That unit had not been through the app's setup, so it held no licence; the key names
+and the way the keys are derived are the same in both firmware versions.
 
-We ran this path end to end on a beta unit, against production, before publishing:
-three version 1 files (a binary, a text file, a folder) opened byte-identical after
-the update, and a new file came out as version 2 and opened again.
+**Not tried:** pulling a cable in the middle of the write. The design says the keys stay
+where they are, because the write never reaches the `nvs` partition, and that running
+**Update** again finishes the job. We have not seen it.
 
-There is still no update that keeps the chip's own `K_attestation`: that would mean
-writing only the application, and that path does not exist yet.
+> **Do not update with Setup → Program or with `CryptinUpdater first-flash`.** Those
+> write the whole image from address `0x0`, `nvs` included: the chip starts over with a
+> new identity and the app shows you **24 new words**. Your files and your licence
+> belong to the old ones. If it has already happened, **Transfer license** with your
+> old 24 words puts them back, at the cost of one of the licence's three transfers a
+> year.
+
+**Transfer license** is for a dongle that is broken, lost or stolen: it moves the
+licence onto another chip. It is no longer the way to update.
 
 ---
 
@@ -354,8 +390,10 @@ Full terms are on the site: <https://cryptin.lake8.dev/docs/license/>.
 
 ## What this beta does not promise
 
-- ⛔ **No OTA.** Updating the firmware is a reprogram plus a licence transfer —
-  see *Updating from beta-2026-09-24* above.
+- ⛔ **No OTA.** **Update firmware** works over the UART cable, on a `-dev` unit
+  only: a production dongle refuses it (Secure Download Mode), and the chip checks no
+  signature on the image, only the updater checks its hash. A signed update for
+  production dongles does not exist yet. See [Updating the firmware](#updating-the-firmware).
 - ⛔ **Licence expiry is not enforced offline.** Nothing sets the dongle's clock,
   so offline a licence does not expire. Said plainly rather than discovered.
 - ⛔ **The session is not bound to the process.** Auto-lock is done, the binding

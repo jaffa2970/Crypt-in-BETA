@@ -144,15 +144,17 @@ self-contained.
 there — "unsupported" is a support statement, not a lock — but we will not claim
 it.)*
 
-**Linux (x86-64): the `cryptin` command line, a separate download.** Since
-3 November 2026 the Release
-[`cli-linux-2026-11-03`](../../releases/tag/cli-linux-2026-11-03) carries a
-self-contained `cryptin` for Linux: encrypt, decrypt, `open-offline` with the
-24 words, and `status`, which shows the licence's expiry. It has no `activate`:
-**the licence is activated from Windows**, with CryptinPersonal, and the CLI
-reads it from the chip. It never connects to the network. `.crin` files move
-between the two systems in both directions. It was tested on Ubuntu 26.04.1 LTS
-in a VMware virtual machine; other distributions have not been tried.
+**Linux (x86-64): the `cryptin` command line, a separate download.** The
+Release [`cli-linux-2026-11-04`](../../releases/tag/cli-linux-2026-11-04)
+carries a self-contained `cryptin` for Linux: encrypt, decrypt, `open-offline`
+with the 24 words, `status` with the licence's expiry, and since 4 November
+**`activate`**, so the beta licence can be activated from Linux too. Setting the
+dongle up (flashing it, handing over the 24 words and the PIN) still happens on
+Windows, with CryptinPersonal. Only `activate` talks to the network, to the
+licence server. `.crin` files move between the two systems in both directions.
+It was tested on Ubuntu 26.04.1 LTS in a VMware virtual machine; other
+distributions have not been tried. It replaces `cli-linux-2026-11-03`, which has
+been withdrawn.
 
 ---
 

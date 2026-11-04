@@ -3,11 +3,16 @@
 Hardware-backed file encryption on an ESP32-S3 dongle. This repository is where
 the beta package is downloaded from, and where you report what you find.
 
-**The beta is live since 29 September 2026.** Current package: **`beta-2026-11-01`**,
-published 1 November 2026. **New firmware**, and the app can now install it without a
-transfer: **Update firmware** keeps your 24 words, your PIN, your files and your
-licence. With the new firmware, **New identity** happens on the chip itself — no cable
-to the UART, no reprogramming. See
+**The beta is live since 29 September 2026.** Current package: **`beta-2026-11-04`**,
+published 4 November 2026. It is `beta-2026-11-01` with the licence texts it lacked
+(`NOTICE.txt` and `licenses\`); the code and the firmware are the same, so **a dongle
+already on `beta-2026-11-01` needs nothing**. See
+[What changed in beta-2026-11-04](#what-changed-in-beta-2026-11-04).
+
+The last change to the firmware came with `beta-2026-11-01`: the app can install it
+without a transfer, since **Update firmware** keeps your 24 words, your PIN, your files
+and your licence. With that firmware, **New identity** happens on the chip itself — no
+cable to the UART, no reprogramming. See
 [What changed in beta-2026-11-01](#what-changed-in-beta-2026-11-01).
 
 > **To update any beta dongle:** replace the app folder with this package, plug in
@@ -166,7 +171,7 @@ Select-String -Path .\SHA256SUMS.txt -Pattern '([0-9a-f]{64})\s+(.+)' | ForEach-
 }
 ```
 
-**You should see six `OK` lines.** If you see five, that is not a pass.
+**You should see fourteen `OK` lines.** If you see thirteen, that is not a pass.
 
 *(For a single file from `cmd`: `certutil -hashfile CryptinPersonal.exe SHA256`.)*
 
@@ -183,6 +188,22 @@ Select-String -Path .\SHA256SUMS.txt -Pattern '([0-9a-f]{64})\s+(.+)' | ForEach-
 are not byte-for-byte reproducible — two builds twenty minutes apart from
 identical sources produce different hashes. The published hash identifies **the
 artefact you received**, not the source.
+
+---
+
+## What changed in beta-2026-11-04
+
+**Licence texts, and nothing else.** Until `beta-2026-11-01` the package carried one
+licence, esptool's. It now carries:
+
+- **`NOTICE.txt`**, which says which licence covers which file and where the source is;
+- **`licenses\`**: GPL-3.0 (CryptinPersonal, CryptinUpdater), Apache-2.0 and the NOTICE
+  of CryptinSDK, HidSharp's licence, the MIT licence and third-party notices of the .NET
+  runtime 9.0.22 inside both executables, and the third-party notices of
+  System.IO.Ports 10.0.10 — next to esptool's GPL-2.0, which was already there.
+
+Hence fourteen lines in `SHA256SUMS.txt` instead of six. The firmware is the same image
+(`2e1bbef`, `b33bb397…`), and the source of app, SDK and updater is unchanged.
 
 ---
 

@@ -3,11 +3,12 @@
 Hardware-backed file encryption on an ESP32-S3 dongle. This repository is where
 the beta package is downloaded from, and where you report what you find.
 
-**The beta is live since 29 September 2026.** Current package: **`beta-2026-11-04`**,
-published 4 November 2026. It is `beta-2026-11-01` with the licence texts it lacked
-(`NOTICE.txt` and `licenses\`); the code and the firmware are the same, so **a dongle
-already on `beta-2026-11-01` needs nothing**. See
-[What changed in beta-2026-11-04](#what-changed-in-beta-2026-11-04).
+**The beta is live since 29 September 2026.** Current package: **`beta-2026-11-04b`**,
+published 4 November 2026. Two fixes in the app: a clear message after an interrupted
+firmware update, and no second PIN prompt after registering a backup. The firmware is the
+same as in `beta-2026-11-01`, so **a dongle already on that firmware needs nothing**:
+replace the app folder. See
+[What changed in beta-2026-11-04b](#what-changed-in-beta-2026-11-04b).
 
 The last change to the firmware came with `beta-2026-11-01`: the app can install it
 without a transfer, since **Update firmware** keeps your 24 words, your PIN, your files
@@ -190,6 +191,23 @@ Select-String -Path .\SHA256SUMS.txt -Pattern '([0-9a-f]{64})\s+(.+)' | ForEach-
 are not byte-for-byte reproducible — two builds twenty minutes apart from
 identical sources produce different hashes. The published hash identifies **the
 artefact you received**, not the source.
+
+---
+
+## What changed in beta-2026-11-04b
+
+**Two fixes in the app; the firmware and the licence files are unchanged.**
+
+- **After an interrupted firmware update the app says what happened.** If **Update
+  firmware** stops during the write, the dongle has no application until an update
+  completes: it does not start and does not show up as a dongle. The message now says so,
+  says that **your 24 words, your PIN and your licence are not touched**, and tells you to
+  check the UART cable and press Update again. We interrupted updates on purpose and
+  pressing Update again repaired the dongle every time.
+- **No second PIN prompt after registering a backup dongle.** The main window now keeps
+  the session the last step of **Backup dongle** opened, as **Transfer license** and
+  **New identity** already did. *Changed in the code, not yet walked again with two
+  dongles: tell us if you are still asked for the PIN twice.*
 
 ---
 

@@ -3,12 +3,12 @@
 Hardware-backed file encryption on an ESP32-S3 dongle. This repository is where
 the beta package is downloaded from, and where you report what you find.
 
-**The beta is live since 29 September 2026.** Current package: **`beta-2026-11-04b`**,
-published 4 November 2026. Two fixes in the app: a clear message after an interrupted
-firmware update, and no second PIN prompt after registering a backup. The firmware is the
+**The beta is live since 29 September 2026.** Current package: **`beta-2026-11-15`**,
+published 15 November 2026. One fix in the app: **Backup dongle** now puts the licence on
+the backup too, so the backup encrypts as soon as the wizard closes. The firmware is the
 same as in `beta-2026-11-01`, so **a dongle already on that firmware needs nothing**:
 replace the app folder. See
-[What changed in beta-2026-11-04b](#what-changed-in-beta-2026-11-04b).
+[What changed in beta-2026-11-15](#what-changed-in-beta-2026-11-15).
 
 The last change to the firmware came with `beta-2026-11-01`: the app can install it
 without a transfer, since **Update firmware** keeps your 24 words, your PIN, your files
@@ -194,6 +194,30 @@ artefact you received**, not the source.
 
 ---
 
+## What changed in beta-2026-11-15
+
+**One fix in the app; the firmware and the licence files are unchanged.**
+
+- **A backup dongle now encrypts as soon as Backup dongle finishes.** Until this package
+  the wizard registered the backup on the server and said it "works immediately". It did
+  open your files, but it **refused to encrypt** ("no active license · encryption needs
+  one") until you connected it again, online, and pressed **Load license**. The licence
+  is bound to each chip, so the backup needs its own written on it. The wizard now has a
+  step for that: after the main dongle signs the registration, it asks for the backup
+  once more and for its PIN (it is the same PIN), fetches the backup's licence and writes
+  it to the chip. That step needs the network once; afterwards the backup works on its
+  own. If you skip it, the wizard tells you what is missing, and **Load license** in the
+  main window still does it later.
+- We found this on 15 November with two brand-new ESP32-S3 boards: a file encrypted on
+  one twin opened on the other in both directions, and the backup would not encrypt.
+  With the new step, on the same two boards, the backup encrypted straight after the
+  wizard and the main dongle opened the result.
+- **A backup registered with an earlier package** is in the old state if you never
+  pressed **Load license** on it: connect it, enter the PIN, and the main window offers
+  **Load license**.
+
+---
+
 ## What changed in beta-2026-11-04b
 
 **Two fixes in the app; the firmware and the licence files are unchanged.**
@@ -206,8 +230,7 @@ artefact you received**, not the source.
   pressing Update again repaired the dongle every time.
 - **No second PIN prompt after registering a backup dongle.** The main window now keeps
   the session the last step of **Backup dongle** opened, as **Transfer license** and
-  **New identity** already did. *Changed in the code, not yet walked again with two
-  dongles: tell us if you are still asked for the PIN twice.*
+  **New identity** already did. Walked with two dongles on 7 November.
 
 ---
 

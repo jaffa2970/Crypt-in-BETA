@@ -3,14 +3,14 @@
 Hardware-backed file encryption on an ESP32-S3 dongle. This repository is where
 the beta package is downloaded from, and where you report what you find.
 
-**The beta is live since 29 September 2026.** Current package: **`beta-2026-11-15`**,
-published 15 November 2026. One fix in the app: **Backup dongle** now puts the licence on
-the backup too, so the backup encrypts as soon as the wizard closes. The firmware is the
-same as in `beta-2026-11-01`, so **a dongle already on that firmware needs nothing**:
-replace the app folder. See
-[What changed in beta-2026-11-15](#what-changed-in-beta-2026-11-15).
+**The beta is live since 29 September 2026.** Current package: **`beta-2026-11-24`**,
+published 24 November 2026. A warning, in the app and on the dongle's serial console,
+that **the 24 words are not wallet words**. New firmware `a49d6b2`, which changes that
+text and nothing else: **Update firmware** installs it and keeps your words, PIN, files
+and licence. See
+[What changed in beta-2026-11-24](#what-changed-in-beta-2026-11-24).
 
-The last change to the firmware came with `beta-2026-11-01`: the app can install it
+The last change to how the firmware works came with `beta-2026-11-01`: the app can install it
 without a transfer, since **Update firmware** keeps your 24 words, your PIN, your files
 and your licence. With that firmware, **New identity** happens on the chip itself — no
 cable to the UART, no reprogramming. See
@@ -191,6 +191,34 @@ Select-String -Path .\SHA256SUMS.txt -Pattern '([0-9a-f]{64})\s+(.+)' | ForEach-
 are not byte-for-byte reproducible — two builds twenty minutes apart from
 identical sources produce different hashes. The published hash identifies **the
 artefact you received**, not the source.
+
+---
+
+## What changed in beta-2026-11-24
+
+**A warning that the 24 words are not wallet words: new firmware and a few lines in the app.**
+
+- **Why.** The 24 words are standard BIP-39 words, the list crypto wallets use, but
+  Crypt-in turns them into its key its own way. A wallet accepts Crypt-in's words and
+  Crypt-in accepts a wallet's, so no check can catch the mix-up — only a warning before
+  it happens: *"These are NOT wallet words — never use them in a wallet, never type a
+  wallet's words here."*
+- **In the app**, where the words are shown and where you type them: when they are handed
+  over (setup and **New identity**), and above the 24 boxes of the serial recovery and of
+  **Backup dongle**. (`cryptin open-offline` says it too in the source; the Linux command
+  line package is not rebuilt yet.)
+- **New firmware:** `firmware\firmware.factory.bin`, sha256
+  `a550b72220a3c01df927c69f99ab3af4161d1c5086d7565e684f96af697999fb`, version `a49d6b2`.
+  It replaces `2e1bbef`. The only change is the same warning on the serial console, in
+  the recovery-phrase banner and before the `recover` prompt. Same commands, same
+  partition layout, same keys: [Updating the firmware](#updating-the-firmware) keeps
+  everything, and spends no transfer. The old firmware still works with this app; it
+  just does not show the warning on the console.
+- **Seen before publishing:** a beta dongle on `2e1bbef`, updated by the updater in this
+  package, started with `a49d6b2`, the same identity key and no new words, and unlocked
+  with its usual PIN. On a blank ESP32-S3 the serial console showed the warning in the
+  handover banner and before `recover`. The app screens were checked as drawn, not yet
+  walked through by hand with this exact package.
 
 ---
 

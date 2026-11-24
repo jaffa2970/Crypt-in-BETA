@@ -146,15 +146,16 @@ there — "unsupported" is a support statement, not a lock — but we will not c
 it.)*
 
 **Linux (x86-64): the `cryptin` command line, a separate download.** The
-Release [`cli-linux-2026-11-04`](../../releases/tag/cli-linux-2026-11-04)
+Release [`cli-linux-2026-11-24`](../../releases/tag/cli-linux-2026-11-24)
 carries a self-contained `cryptin` for Linux: encrypt, decrypt, `open-offline`
-with the 24 words, `status` with the licence's expiry, and since 4 November
-**`activate`**, so the beta licence can be activated from Linux too. Setting the
+with the 24 words, `status` with the licence's expiry, and **`activate`**, so the
+beta licence can be activated from Linux too. Since 24 November `open-offline`
+warns, before you type the words, that they are not wallet words. Setting the
 dongle up (flashing it, handing over the 24 words and the PIN) still happens on
 Windows, with CryptinPersonal. Only `activate` talks to the network, to the
 licence server. `.crin` files move between the two systems in both directions.
 It was tested on Ubuntu 26.04.1 LTS in a VMware virtual machine; other
-distributions have not been tried. It replaces `cli-linux-2026-11-03`, which has
+distributions have not been tried. It replaces `cli-linux-2026-11-04`, which has
 been withdrawn.
 
 ---
@@ -205,8 +206,8 @@ artefact you received**, not the source.
   wallet's words here."*
 - **In the app**, where the words are shown and where you type them: when they are handed
   over (setup and **New identity**), and above the 24 boxes of the serial recovery and of
-  **Backup dongle**. (`cryptin open-offline` says it too in the source; the Linux command
-  line package is not rebuilt yet.)
+  **Backup dongle**, and in `cryptin open-offline` on Linux (release
+  `cli-linux-2026-11-24`).
 - **New firmware:** `firmware\firmware.factory.bin`, sha256
   `a550b72220a3c01df927c69f99ab3af4161d1c5086d7565e684f96af697999fb`, version `a49d6b2`.
   It replaces `2e1bbef`. The only change is the same warning on the serial console, in
